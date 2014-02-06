@@ -60,8 +60,10 @@ print.benfords<- function(){
 print.benfords()
 
 ##Question 3
-dataset1<- c(10,10,10,10,10)
-dataset2<- c(20,50,60,70,80)
+#datasets to test for
+dataset1<- rnbinom(100, 10, 0.5)
+dataset2<- rnorm(1:100,10)
+
 #Error 1/Branch 1-distribution is calculated incorrectly for dataset1
 my.fnc1<- function(results,stat){ #function to derive the statistics
   i<- as.numeric(substr(results, start=1, stop=2)) #takes the first integers and stores
