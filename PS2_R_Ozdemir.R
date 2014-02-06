@@ -97,7 +97,7 @@ unit.test1<- function(){
   logical.x<- c(x1,x2)
   return(all(logical.x))
 }
-unit.test1()
+unit.test1.logical<- unit.test1()
 
 #Error 2/Branch 2-either of the statistics (m statistics in this case) are wrong for dataset1 
 my.fnc2<- function(results,stat){ #function to derive the statistics
@@ -133,11 +133,9 @@ unit.test2<- function(){
   logical.x<- c(x1,x2)
   return(all(logical.x)) #returns true if statistics confirm no fraud
 }
-unit.test2() #we will know if this is false
+unit.test2.logical<- unit.test2() #we will know if this is false
 
 #Error 3/Branch 3-distribution is calculated incorrectly for dataset2
-rm(list = ls()) #clear the workspace
-results<- sample(1:100, 10, replace=TRUE)#generate random election results 
 my.fnc3<- function(results,stat){ #function to derive the statistics
   i<- as.numeric(substr(results, start=1, stop=2)) #takes the first integers and stores
   #added error (stop=2) to calculate distribution incorrectly
@@ -172,11 +170,9 @@ unit.test3<- function(){
   logical.x<- c(x1,x2)
   return(all(logical.x)) #returns true if statistics confirm no fraud
 }
-unit.test3() #we will know if this is false
+unit.test3.logical<- unit.test3() #we will know if this is false
 
 #Error 4/Branch 4-either of the statistics (d statistics in this case) are wrong for dataset2
-rm(list = ls()) #clear the workspace
-results<- sample(1:100, 10, replace=TRUE)#generate random election results 
 my.fnc4<- function(results,stat){ #function to derive the statistics
   i<- as.numeric(substr(results, start=1, stop=1)) #takes the first integers and stores
   if(stat=="m"){        #if stat option is specified as "m", returns m statistics
@@ -210,5 +206,30 @@ unit.test4<- function(){
   logical.x<- c(x1,x2)
   return(all(logical.x)) #returns true if statistics confirm no fraud
 }
-unit.test4() #we will know if this is false
+unit.test4.logical<- unit.test4() #we will know if this is false
+unit.test.logical<- c(unit.test1.logical, unit.test2.logical, unit.test3.logical, unit.test4.logical) #store all logicals from unit tests in one vector
 
+#Type I error-distribution is calculated incorrectly for dataset1
+#Type II error-either of the statistics (m statistics in this case) are wrong for dataset1
+#Type III error-distribution is calculated incorrectly for dataset2
+#Type IV error-either of the statistics (d statistics in this case) are wrong for dataset2
+#the final unit test that gives us either all unit tests are TRUE, or tells us which type of errors occured
+unit.test<- function(){
+  if(all(unit.test.logical)){
+    return(TRUE)
+  }else{
+    if(!unit.test1.logical){
+      print("The function gives type I error")
+    }
+    if(!unit.test2.logical){
+      print("The function gives type II error")
+    }
+    if(!unit.test3.logical){
+      print("The function gives type III error")
+    }
+    if(!unit.test4.logical){
+      print("The function gives type IV error")
+    }
+  }
+}
+unit.test()
